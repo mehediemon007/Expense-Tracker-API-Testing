@@ -1,0 +1,681 @@
+{
+	"info": {
+		"_postman_id": "0d378706-cb18-4872-beae-273fdceec211",
+		"name": "Expense Tracker",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23253989"
+	},
+	"item": [
+		{
+			"name": "SignUp",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"let random = Math.random().toString(36).substring(2);\r",
+							"\r",
+							"let user_name=\"Hasan \" + random;\r",
+							"let email=\"hasan.\" + random + \"@gmail.com\";\r",
+							"let password = random;\r",
+							"\r",
+							"pm.collectionVariables.set(\"userName\",user_name);\r",
+							"pm.collectionVariables.set(\"email\", email);\r",
+							"pm.collectionVariables.set(\"password\", password);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Checking Status Code is 201\", ()=>{\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"let {_id, name, token } = pm.response.json();\r",
+							"\r",
+							"pm.collectionVariables.set(\"userId\", _id);\r",
+							"pm.collectionVariables.set(\"userName\", name);\r",
+							"pm.environment.set(\"token\", token);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"{{userName}}\",\r\n    \"email\": \"{{email}}\",\r\n    \"password\": \"{{password}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/users/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"users",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Validate User is Logged In Successfully\",function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"let {_id} = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Validate the correct user\",()=>{\r",
+							"    pm.expect(_id).to.be.equal(pm.collectionVariables.get(\"userId\"));\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"{{email}}\",\r\n  \"password\": \"{{password}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/users/login",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add-Transaction",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"function generateRandomExpense() {\r",
+							"  const transactionCategories = [\r",
+							"    'Groceries',\r",
+							"    'Utilities',\r",
+							"    'Transportation',\r",
+							"    'Dining Out',\r",
+							"    'Entertainment',\r",
+							"    'Rent',\r",
+							"    'Health Insurance',\r",
+							"    'Internet Bill',\r",
+							"    'Gym Membership',\r",
+							"    'Travel',\r",
+							"    'Shopping',\r",
+							"    'Phone Bill',\r",
+							"    'Insurance Premiums',\r",
+							"    'Subscriptions',\r",
+							"    'Medical Expenses',\r",
+							"    'Miscellaneous'\r",
+							"  ];\r",
+							"\r",
+							"  const randomIndex = Math.floor(Math.random() * transactionCategories.length);\r",
+							"\r",
+							"  return transactionCategories[randomIndex];\r",
+							"}\r",
+							"\r",
+							"pm.collectionVariables.set(\"transName\", generateRandomExpense());\r",
+							"\r",
+							"let amount = Math.round(Math.random() * 10000) + 10;\r",
+							"\r",
+							"pm.collectionVariables.set(\"amount\", amount);\r",
+							"\r",
+							"let date = new Date();\r",
+							"console.log(date)\r",
+							"\r",
+							"pm.collectionVariables.set(\"customeDate\",date);\r",
+							"\r",
+							"const transTypes = [\r",
+							"    \"income\",\r",
+							"    \"expense\"\r",
+							"]\r",
+							"\r",
+							"let typeIndex = Math.round(Math.random());\r",
+							"\r",
+							"pm.collectionVariables.set(\"transType\", transTypes[typeIndex]);\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Checking Status Code is 201\", ()=>{\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"let responseData = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Transaction is added to the correct user\",()=>{\r",
+							"    pm.expect(responseData.user).to.be.equal(pm.collectionVariables.get(\"userId\"));\r",
+							"});\r",
+							"\r",
+							"pm.collectionVariables.set(\"transId\", responseData._id);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"text\": \"{{transName}}\",\r\n    \"amount\": {{amount}},\r\n    \"customDate\": \"{{customeDate}}\",\r\n    \"type\": \"{{transType}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/expenses",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"expenses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Transactions",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Checking Status Code is 200\", ()=>{\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"let responseData = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Test Data type of the Response\",()=>{\r",
+							"    pm.expect(responseData).to.be.an(\"array\");\r",
+							"});\r",
+							"\r",
+							"let {text, amount, type} = responseData.find(expense => expense._id === pm.collectionVariables.get(\"transId\"));\r",
+							"\r",
+							"pm.test(\"Checking New Added Transaction Data\",()=>{\r",
+							"    pm.expect(text).to.be.equal(pm.collectionVariables.get(\"transName\"));\r",
+							"    pm.expect(amount).to.be.equal(pm.collectionVariables.get(\"amount\"));\r",
+							"    pm.expect(type).to.be.equal(pm.collectionVariables.get(\"transType\"));\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/expenses",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"expenses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit-Transaction",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.variables.set(\"trans_id\", pm.collectionVariables.get(\"transId\"));\r",
+							"\r",
+							"function generateRandomExpense() {\r",
+							"  const transactionCategories = [\r",
+							"    'Groceries',\r",
+							"    'Utilities',\r",
+							"    'Transportation',\r",
+							"    'Dining Out',\r",
+							"    'Entertainment',\r",
+							"    'Rent',\r",
+							"    'Health Insurance',\r",
+							"    'Internet Bill',\r",
+							"    'Gym Membership',\r",
+							"    'Travel',\r",
+							"    'Shopping',\r",
+							"    'Phone Bill',\r",
+							"    'Insurance Premiums',\r",
+							"    'Subscriptions',\r",
+							"    'Medical Expenses',\r",
+							"    'Miscellaneous'\r",
+							"  ];\r",
+							"\r",
+							"  const randomIndex = Math.floor(Math.random() * transactionCategories.length);\r",
+							"\r",
+							"  return transactionCategories[randomIndex];\r",
+							"}\r",
+							"\r",
+							"pm.collectionVariables.set(\"transName\", generateRandomExpense());\r",
+							"\r",
+							"let amount = Math.round(Math.random() * 10000) + 10;\r",
+							"\r",
+							"pm.collectionVariables.set(\"amount\", amount);\r",
+							"\r",
+							"const transTypes = [\r",
+							"    \"income\",\r",
+							"    \"expense\"\r",
+							"]\r",
+							"\r",
+							"let typeIndex = Math.round(Math.random());\r",
+							"\r",
+							"pm.collectionVariables.set(\"transType\", transTypes[typeIndex]);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Checking Status Code is 200\",()=>{\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"let {_id,text,amount,type} = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Checking Transaction Data After Update\",()=>{\r",
+							"    pm.expect(_id).to.be.equal(pm.variables.get(\"trans_id\"));\r",
+							"    pm.expect(text).to.be.equal(pm.collectionVariables.get(\"transName\"));\r",
+							"    pm.expect(amount).to.be.equal(pm.collectionVariables.get(\"amount\"));\r",
+							"    pm.expect(type).to.be.equal(pm.collectionVariables.get(\"transType\"));\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"text\": \"{{transName}}\",\r\n    \"amount\": {{amount}},\r\n    \"type\": \"{{transType}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/expenses/:_id",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"expenses",
+						":_id"
+					],
+					"variable": [
+						{
+							"key": "_id",
+							"value": "{{trans_id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete-Transaction",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.variables.set(\"trans_id\", pm.collectionVariables.get(\"transId\"));"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Checking Status Code is 200\", ()=>{\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.collectionVariables.unset(\"transId\");\r",
+							"pm.collectionVariables.unset(\"transName\");\r",
+							"pm.collectionVariables.unset(\"amount\");\r",
+							"pm.collectionVariables.unset(\"transType\");"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/expenses/:_id",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"expenses",
+						":_id"
+					],
+					"variable": [
+						{
+							"key": "_id",
+							"value": "{{trans_id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get-User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Checking Status Code is 200\", ()=>{\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"let {_id, name} = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Verify the Logged User\",()=>{\r",
+							"    pm.expect(_id).to.be.equal(pm.collectionVariables.get(\"userId\"));\r",
+							"    pm.expect(name).to.be.equal(pm.collectionVariables.get(\"userName\"));\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/users/me",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"users",
+						"me"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update-User",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"let firstName = Math.random().toString(36).substring(2);\r",
+							"\r",
+							"let userName= firstName + \" Hasan\";\r",
+							"\r",
+							"pm.collectionVariables.set(\"userName\", userName);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Checking Status Code is 200\", ()=>{\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"let {_id, name} = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Validate Updated User Details\",()=>{\r",
+							"    pm.expect(_id).to.be.equal(pm.collectionVariables.get(\"userId\"));\r",
+							"    pm.expect(name).to.be.equal(pm.collectionVariables.get(\"userName\"));\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"{{userName}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/users/update",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"users",
+						"update"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add-Profile-Pic",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Checking Status Code is 200\", ()=>{\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"let responseDate = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Checking Profile Picture is Uploaded Successfully\",()=>{\r",
+							"    pm.expect(responseDate._id).to.be.eql(pm.collectionVariables.get(\"userId\"));\r",
+							"    pm.expect(responseDate).to.have.property(\"profilePicture\").that.is.a(\"string\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "profilePicture",
+							"type": "file",
+							"src": "postman-cloud:///1efb44d2-5fb9-41a0-b982-1fa72c1a80f2"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/users/upload-profile-picture",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"users",
+						"upload-profile-picture"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Remove-Profile-Pic",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Checking Status Code is 200\", ()=>{\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"let responseDate = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Checking Profile Picture is Removed Successfully\",()=>{\r",
+							"    pm.expect(responseDate._id).to.be.eql(pm.collectionVariables.get(\"userId\"));\r",
+							"    pm.expect(responseDate).to.not.have.property(\"profilePicture\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/users/remove-profile-picture",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"users",
+						"remove-profile-picture"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "userId",
+			"value": ""
+		},
+		{
+			"key": "customeDate",
+			"value": ""
+		},
+		{
+			"key": "userName",
+			"value": ""
+		},
+		{
+			"key": "email",
+			"value": ""
+		},
+		{
+			"key": "password",
+			"value": ""
+		}
+	]
+}

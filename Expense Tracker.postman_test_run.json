@@ -1,0 +1,386 @@
+{
+	"id": "5f89e274-6d17-483e-a505-e2b87b516bdc",
+	"name": "Expense Tracker",
+	"timestamp": "2024-12-07T19:26:40.113Z",
+	"collection_id": "23253989-0d378706-cb18-4872-beae-273fdceec211",
+	"folder_id": 0,
+	"environment_id": "23253989-b424d0a7-7f4c-485c-9813-9fd152265e36",
+	"totalPass": 17,
+	"delay": "2000",
+	"persist": true,
+	"status": "finished",
+	"startedAt": "2024-12-07T19:26:04.392Z",
+	"totalFail": 2,
+	"results": [
+		{
+			"id": "49deba5a-9e22-48f2-bc46-280ce37ddab0",
+			"name": "SignUp",
+			"url": "https://expense-tracker-one-puce.vercel.app/api/users/",
+			"time": 4120,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Checking Status Code is 201": true
+			},
+			"testPassFailCounts": {
+				"Checking Status Code is 201": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				4120
+			],
+			"allTests": [
+				{
+					"Checking Status Code is 201": true
+				}
+			]
+		},
+		{
+			"id": "48e39f2b-2610-470c-87bf-eb1180c55a83",
+			"name": "Login",
+			"url": "https://expense-tracker-one-puce.vercel.app/api/users/login",
+			"time": 588,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Validate User is Logged In Successfully": true,
+				"Validate the correct user": true
+			},
+			"testPassFailCounts": {
+				"Validate User is Logged In Successfully": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Validate the correct user": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				588
+			],
+			"allTests": [
+				{
+					"Validate User is Logged In Successfully": true,
+					"Validate the correct user": true
+				}
+			]
+		},
+		{
+			"id": "5dec9d75-497a-400d-a11c-f9d551d53d81",
+			"name": "Add-Transaction",
+			"url": "https://expense-tracker-one-puce.vercel.app/api/expenses",
+			"time": 671,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Checking Status Code is 201": true,
+				"Transaction is added to the correct user": true
+			},
+			"testPassFailCounts": {
+				"Checking Status Code is 201": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Transaction is added to the correct user": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				671
+			],
+			"allTests": [
+				{
+					"Checking Status Code is 201": true,
+					"Transaction is added to the correct user": true
+				}
+			]
+		},
+		{
+			"id": "da6468a9-2f84-44b8-91c5-14a1e6fa0ab5",
+			"name": "Transactions",
+			"url": "https://expense-tracker-one-puce.vercel.app/api/expenses",
+			"time": 647,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Checking Status Code is 200": true,
+				"Test Data type of the Response": true,
+				"Checking New Added Transaction Data": true
+			},
+			"testPassFailCounts": {
+				"Checking Status Code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Test Data type of the Response": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Checking New Added Transaction Data": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				647
+			],
+			"allTests": [
+				{
+					"Checking Status Code is 200": true,
+					"Test Data type of the Response": true,
+					"Checking New Added Transaction Data": true
+				}
+			]
+		},
+		{
+			"id": "c2b53e27-09db-4f2c-8115-0dae8f80fe36",
+			"name": "Edit-Transaction",
+			"url": "https://expense-tracker-one-puce.vercel.app/api/expenses/6754a157a05ed37b5cf74307",
+			"time": 1400,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Checking Status Code is 200": true,
+				"Checking Transaction Data After Update": true
+			},
+			"testPassFailCounts": {
+				"Checking Status Code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Checking Transaction Data After Update": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				1400
+			],
+			"allTests": [
+				{
+					"Checking Status Code is 200": true,
+					"Checking Transaction Data After Update": true
+				}
+			]
+		},
+		{
+			"id": "d84cf902-6c36-45e4-ac26-498769d54403",
+			"name": "Delete-Transaction",
+			"url": "https://expense-tracker-one-puce.vercel.app/api/expenses/6754a157a05ed37b5cf74307",
+			"time": 1041,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Checking Status Code is 200": true
+			},
+			"testPassFailCounts": {
+				"Checking Status Code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				1041
+			],
+			"allTests": [
+				{
+					"Checking Status Code is 200": true
+				}
+			]
+		},
+		{
+			"id": "4d0d570a-edb0-4895-b423-26a9dac4acd8",
+			"name": "Get-User",
+			"url": "https://expense-tracker-one-puce.vercel.app/api/users/me",
+			"time": 657,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Checking Status Code is 200": true,
+				"Verify the Logged User": false
+			},
+			"testPassFailCounts": {
+				"Checking Status Code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Verify the Logged User": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				657
+			],
+			"allTests": [
+				{
+					"Checking Status Code is 200": true,
+					"Verify the Logged User": false
+				}
+			]
+		},
+		{
+			"id": "8a3e4aab-39b5-4a7f-a406-ce938eb8bfbb",
+			"name": "Update-User",
+			"url": "https://expense-tracker-one-puce.vercel.app/api/users/update",
+			"time": 853,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Checking Status Code is 200": true,
+				"Validate Updated User Details": true
+			},
+			"testPassFailCounts": {
+				"Checking Status Code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Validate Updated User Details": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				853
+			],
+			"allTests": [
+				{
+					"Checking Status Code is 200": true,
+					"Validate Updated User Details": true
+				}
+			]
+		},
+		{
+			"id": "d80d705a-0a15-4a1f-823e-d0c7566c2975",
+			"name": "Add-Profile-Pic",
+			"url": "https://expense-tracker-one-puce.vercel.app/api/users/upload-profile-picture",
+			"time": 486,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Checking Status Code is 200": true,
+				"Checking Profile Picture is Uploaded Successfully": false
+			},
+			"testPassFailCounts": {
+				"Checking Status Code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Checking Profile Picture is Uploaded Successfully": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				486
+			],
+			"allTests": [
+				{
+					"Checking Status Code is 200": true,
+					"Checking Profile Picture is Uploaded Successfully": false
+				}
+			]
+		},
+		{
+			"id": "75af7f8c-72dc-47e0-9e30-fc1d1d1af70d",
+			"name": "Remove-Profile-Pic",
+			"url": "https://expense-tracker-one-puce.vercel.app/api/users/remove-profile-picture",
+			"time": 842,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Checking Status Code is 200": true,
+				"Checking Profile Picture is Removed Successfully": true
+			},
+			"testPassFailCounts": {
+				"Checking Status Code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Checking Profile Picture is Removed Successfully": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				842
+			],
+			"allTests": [
+				{
+					"Checking Status Code is 200": true,
+					"Checking Profile Picture is Removed Successfully": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 11305,
+	"collection": {
+		"requests": [
+			{
+				"id": "49deba5a-9e22-48f2-bc46-280ce37ddab0",
+				"method": "POST"
+			},
+			{
+				"id": "48e39f2b-2610-470c-87bf-eb1180c55a83",
+				"method": "POST"
+			},
+			{
+				"id": "5dec9d75-497a-400d-a11c-f9d551d53d81",
+				"method": "POST"
+			},
+			{
+				"id": "da6468a9-2f84-44b8-91c5-14a1e6fa0ab5",
+				"method": "GET"
+			},
+			{
+				"id": "c2b53e27-09db-4f2c-8115-0dae8f80fe36",
+				"method": "PUT"
+			},
+			{
+				"id": "d84cf902-6c36-45e4-ac26-498769d54403",
+				"method": "DELETE"
+			},
+			{
+				"id": "4d0d570a-edb0-4895-b423-26a9dac4acd8",
+				"method": "GET"
+			},
+			{
+				"id": "8a3e4aab-39b5-4a7f-a406-ce938eb8bfbb",
+				"method": "PUT"
+			},
+			{
+				"id": "d80d705a-0a15-4a1f-823e-d0c7566c2975",
+				"method": "POST"
+			},
+			{
+				"id": "75af7f8c-72dc-47e0-9e30-fc1d1d1af70d",
+				"method": "POST"
+			}
+		]
+	}
+}
